@@ -21,6 +21,6 @@ class Auth{
 
 	static function logout()
 	{
-		Session::destroy();
+		\Lib\Session::destroy();
 	}
 }

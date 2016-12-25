@@ -7,6 +7,7 @@ class Application{
 	{
 		self::require_wildcard("../lib/*.php");
 		self::require_wildcard("../lib/*/*.php");
+		require_once("../vendor/autoload.php");
 		self::require_wildcard("../App/*.php");
 		self::require_wildcard("../App/Http/Controllers/*.php");
 		self::require_wildcard("../App/Http/Middlewares/*.php");
