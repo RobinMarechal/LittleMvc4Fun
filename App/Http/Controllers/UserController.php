@@ -6,4 +6,10 @@ use Lib\Database as DB;
 use App\User;
 
 class UserController extends Controller{
+
+	public function test()
+	{
+		$var = "bjr";
+		return view('bonjour', ['var' => $var]);
+	}
 }

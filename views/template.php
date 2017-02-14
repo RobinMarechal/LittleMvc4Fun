@@ -5,6 +5,7 @@
 </head>
 <body>
 <h1>HEADER</h1>
+<p>Coucou</p>
 <?php 
 	/**
 	 * This instruction is including your view inside of this layout

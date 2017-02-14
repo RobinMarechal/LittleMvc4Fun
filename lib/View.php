@@ -6,7 +6,6 @@ class View{
 
 	static function make($view, array $data=[])
 	{
-		extract($data);
 		$app = require "../config/app.php";
 		$app_template_engine = $app['template_engine'];
 		$app_layout_path = $app['layout_path'];
@@ -16,11 +15,11 @@ class View{
 
 		if(!is_file($path_to_include))
 		{
-			// header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
 			echo '<pre>';
 			throw new ViewException("View '$path' not found.");
 		}
 
+		extract($data);
 		if($app_template_engine === false)
 		{
 			if(!is_file($app_layout_path))
