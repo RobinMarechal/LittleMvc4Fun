@@ -1,9 +1,11 @@
 <?php
 namespace Lib;
-use Lib\Request;
 
 class Middleware{
 
+    /**
+     * @var \Lib\Request
+     */
 	protected $request;
 
 	function __construct(Request $request)
@@ -13,6 +15,6 @@ class Middleware{
 
 	public function handle()
 	{
-		return 1;
+		return true;
 	}
 }

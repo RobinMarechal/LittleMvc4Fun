@@ -18,5 +18,9 @@ return [
 	 */
 	'layout_path' => '../views/template.php',
 
+    'providers' => [
+
+    ]
+
 
 ];

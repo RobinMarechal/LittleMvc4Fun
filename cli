@@ -1,0 +1,9 @@
+<?php
+
+require "lib/console/Console.php";
+
+/**
+ * Run the command
+ */
+Lib\Console::run($argc, $argv);
+

@@ -3,7 +3,7 @@ namespace App\Middleware;
 use Lib\Middleware;
 use Lib\Redirect;
 
-class RedirectIfAuthentificated extends Middleware{
+class RedirectIfAuthenticated extends Middleware{
 
 	public function handle()
 	{

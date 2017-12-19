@@ -1,156 +1,176 @@
 <?php
+
 namespace Lib;
 
-class Request{
+use Lib\Routing\Route;
 
-	/**
-	 * HTTP METHOD (get/post/put/patch/delete/.....)
-	 */
-	public $httpMethod;
+class Request
+{
 
-	/**
-	 * The requested URI
-	 */
-	public $url;
+    /**
+     * HTTP METHOD (get/post/put/patch/delete/.....)
+     */
+    public $httpMethod;
 
-	/**
-	 * 'path' value in the url ( http://[HOST]/[PATH]?[PARAMS] ) 
-	 */
-	public $page;
+    /**
+     * The requested URI
+     */
+    public $url;
 
-	/**
-	 * URL parameterd
-	 */
-	public $parameters;
+    /**
+     * 'path' value in the url ( http://[HOST]/[PATH]?[PARAMS] )
+     */
+    public $page;
 
-	function __construct()
-	{		
-		$request_uri = $_SERVER['REQUEST_URI'];
+    /**
+     * URL parameterd
+     */
+    public $parameters;
 
-		$oldPrevUrl = $this->url;
+    /**
+     * @var Session
+     */
+    public $session;
 
-		if(array_key_exists('previous_url', $_SESSION))
-		{
-			$currUrl = $_SESSION['current_url'];
-			$prevUrl = $_SESSION['previous_url'];
-			$oldPrevUrl = $prevUrl;
-			$_SESSION['previous_url'] = $currUrl;
-		}
-
-		$_SESSION['current_url'] = $request_uri;
-
-		if($_SESSION['current_url'] == $_SESSION['previous_url'])
-			$_SESSION['previous_url'] = $oldPrevUrl;
+    /**
+     * @var Route
+     */
+    public $route;
 
 
-		$this->previousUrl = $_SESSION['previous_url'];
-		$this->currentUrl = $_SESSION['current_url'];
+    private $get;
 
-		// A voir si besoin...
-		// foreach ($GLOBALS as $g) 
-		// {
-		// 	foreach ($g as $k => $v) 
-		// 	{
-		// 		$this->$k = $v;
-		// 	}
-		// }
+    function __construct()
+    {
+        $requestUri = $_SERVER['REQUEST_URI'];
 
-		$this->url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $oldPrevUrl = $this->url;
 
-		$this->httpMethod = strtolower($_SERVER['REQUEST_METHOD']);
+        $currUrl = null;
 
-		$this->parameters = $_GET;
+        if (array_key_exists('current_url', $_SESSION)) {
+            $currUrl = $_SESSION['current_url'];
 
-		$this->page = parse_url($this->url)['path'];
-		if($this->page !== '/')
-			$this->page = trim($this->page, '/');
+            if ($currUrl != $requestUri) {
+                $_SESSION['previous_url'] = $currUrl;
+            }
+        }
+        $_SESSION['current_url'] = $requestUri;
 
-		if($this->page === null)
-			$this->page = '/';
 
-		if(strtolower($this->httpMethod) != 'get')
-		{
-			$method = strtolower($this->httpMethod);
-			$this->$method = new \stdClass;
-			$str_json = file_get_contents('php://input');
-			$json_decoded = json_decode($str_json);
-			if($json_decoded)
-				foreach ($json_decoded as $k => $v) {
-					$this->$method->$k = $v;
-				}
-		}
+//		if(array_key_exists('previous_url', $_SESSION))
+//		{
+//			$currUrl = $_SESSION['current_url'];
+//			$currUrl = $_SESSION['previous_url'];
+//			$oldPrevUrl = $currUrl;
+//			$_SESSION['previous_url'] = $currUrl;
+//		}
 
-		$this->get = new \stdClass;
-		foreach ($_GET as $k => $v) {
-			$this->get->$k = $v;
-		}
+//		$_SESSION['current_url'] = $requestUri;
 
-		$this->session = new Session();
-		$this->session->user = Session::initUser();
-	}
+        if ($_SESSION['current_url'] == $_SESSION['previous_url'])
+            $_SESSION['previous_url'] = $oldPrevUrl;
 
-	public function all()
-	{
-		$method = $this->httpMethod;
-		$array = (array) $this->$method;
 
-		if(strtolower($method) != 'get')
-		{
-			$array = array_merge($array, (array) $this->get);
-		}
+        // A voir si besoin...
+        // foreach ($GLOBALS as $g)
+        // {
+        // 	foreach ($g as $k => $v)
+        // 	{
+        // 		$this->$k = $v;
+        // 	}
+        // }
 
-		return (object) $array;
-	}
+        $this->url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-	public function getData($method, $args=false)
-	{
-		$asked = $this->$method;
-		if($args === false)
-		{
-			return (array) $asked;
-		}
-		else if(is_array($args))
-		{
-			$array = [];
-			foreach ($args as $k => $v) {
-				$array[$k] = $asked->$v;
-			}
+        $this->httpMethod = strtolower($_SERVER['REQUEST_METHOD']);
 
-			return $array;
-		}
-		else
-		{
-			return $asked->$args;
-		}
-	}
+        $this->parameters = $_GET;
 
-	public function get($args=false)
-	{
-		return $this->getData('get', $args);
-	}
+        $this->page = parse_url($this->url)['path'];
+        if ($this->page !== '/')
+            $this->page = trim($this->page, '/');
 
-	public function put($args=false)
-	{
-		return $this->getData('put', $args);
-	}
+        if ($this->page === null)
+            $this->page = '/';
 
-	public function patch($args=false)
-	{
-		return $this->getData('path', $args);
-	}
+        if (strtolower($this->httpMethod) != 'get') {
+            $method = strtolower($this->httpMethod);
+            $this->$method = new \stdClass;
+            $str_json = file_get_contents('php://input');
+            $json_decoded = json_decode($str_json);
+            if ($json_decoded)
+                foreach ($json_decoded as $k => $v) {
+                    $this->$method->$k = $v;
+                }
+        }
 
-	public function post($args=false)
-	{
-		return $this->getData('post', $args);
-	}
+        $this->get = new \stdClass;
+        foreach ($_GET as $k => $v) {
+            $this->get->$k = $v;
+        }
 
-	public function ajax()
-	{
-		return strpos(strtolower($_SERVER['HTTP_CONTENT_TYPE']), 'json') !== false;
-	}
+        $this->session = new Session();
+        $this->session->user = Session::initUser();
+    }
 
-	public function __call($function, $args)
-	{
-		throw new Exception("Call to undifined function '$function' in /lib/Request.php", 1);
-	}
+    public function all()
+    {
+        $method = $this->httpMethod;
+        $array = (array)$this->$method;
+
+        if (strtolower($method) != 'get') {
+            $array = array_merge($array, (array)$this->get);
+        }
+
+        return (object)$array;
+    }
+
+
+    public function getData($method, $args = false)
+    {
+        $asked = $this->$method;
+        if ($args === false) {
+            return (array)$asked;
+        } else if (is_array($args)) {
+            $array = [];
+            foreach ($args as $k => $v) {
+                $array[$k] = $asked->$v;
+            }
+
+            return $array;
+        } else {
+            return $asked->$args;
+        }
+    }
+
+    public function get($args = false)
+    {
+        return $this->getData('get', $args);
+    }
+
+    public function put($args = false)
+    {
+        return $this->getData('put', $args);
+    }
+
+    public function patch($args = false)
+    {
+        return $this->getData('path', $args);
+    }
+
+    public function post($args = false)
+    {
+        return $this->getData('post', $args);
+    }
+
+    public function ajax()
+    {
+        return strpos(strtolower($_SERVER['HTTP_CONTENT_TYPE']), 'json') !== false;
+    }
+
+    public function __call($function, $args)
+    {
+        throw new Exception("Call to undefined function '$function' in /lib/Request.php", 1);
+    }
 }

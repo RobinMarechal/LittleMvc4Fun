@@ -1,41 +1,54 @@
 <?php
+
 use Lib\View;
 use Lib\Redirect;
 
-function dd($data=false, $die=true)
+function dd(...$data)
 {
-	if($data === false)
-		die();
+    echo '<pre>';
+    foreach ($data as $item) {
+        if (is_array($item) || is_object($item))
+            print_r($item);
+        else
+            var_dump($item);
+        echo '<br/>';
+    }
+    echo '</pre>';
 
-	echo '<pre>';
-	if(is_array($data) || is_object($data))
-		print_r($data);
-	else
-		var_dump($data);
-	echo '</pre>';
-
-	if($die)
-		die();
+    die();
 }
 
 function e404()
 {
-	if(is_file('../views/errors/404.php'));
-	{
-		header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
-		View::make('errors.404');
-		die();
-	}
-	header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
-	die();
+    if (is_file('../views/errors/404.php')) ;
+    {
+        header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
+        View::make('errors.404');
+        die();
+    }
+    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
+    die();
 }
 
-function view($path, $data=[])
+function view($path, $data = [])
 {
-	return View::make($path, $data);
+    return View::make($path, $data);
 }
 
 function redirect($url)
 {
-	return Redirect::to($url);
+    return Redirect::to($url);
+}
+
+function config($configPath)
+{
+    $steps = explode('.', $configPath);
+
+    $base = include("../config/$steps[0].php");
+
+    for ($i = 1; $i < count($steps); $i++) {
+        $base = $base[$steps[$i]];
+    }
+
+    return $base;
 }

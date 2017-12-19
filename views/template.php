@@ -6,14 +6,16 @@
 <body>
 <h1>HEADER</h1>
 <p>Coucou</p>
+
 <?php 
 	/**
 	 * This instruction is including your view inside of this layout
-	 * do NOT rename this variable,
-	 * do NOT remove this line (otherwise your view will not be displayed)
+	 * DO NOT rename this variable,
+	 * DO NOT remove this line
 	 */
-	require $path_to_include; 
+	require $path_to_include;
 ?>
+
 <h1>FOOTER</h1>
 </body>
 </html>
