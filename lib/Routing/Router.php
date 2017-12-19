@@ -30,8 +30,6 @@ class Router{
 		$routeValue = null;
 
 		foreach($this->routes[$this->request->httpMethod] as $key => $value) {
-			print_r([$key, $value]);
-			echo '<br/>';
 			if (preg_match($key, $this->request->page) === 1){
 				$routeKey = $key;
 				$routeValue = $value;

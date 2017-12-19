@@ -5,5 +5,5 @@ require "lib/console/Console.php";
 /**
  * Run the command
  */
-Lib\Console::run($argc, $argv);
+Lib\Console\Console::run($argc, $argv);
 

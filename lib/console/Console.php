@@ -1,8 +1,14 @@
 <?php
-namespace Lib;
+
+namespace Lib\Console;
+
+use Lib\Application;
 
 class Console
 {
+	public static $argc;
+	public static $argv;
+
 	public static function run ($argc, $argv)
 	{
 		self::$argc = $argc;
@@ -15,7 +21,7 @@ class Console
 		 */
 		Application::loadForConsole();
 
-
+		ConsoleDispatcher::dispatch($argc, $argv);
 	}
 
 

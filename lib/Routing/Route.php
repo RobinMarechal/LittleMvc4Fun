@@ -31,7 +31,6 @@ class Route
 	public $middleware;
 	public $params;
 
-
 	function __construct ($page, $route)
 	{
 		$this->page = $page;
@@ -134,7 +133,6 @@ class Route
 	{
 		self::registerRouteForMethod('delete', $pattern, $call, $array);
 	}
-
 
 	static function createRoute ($pattern, $call, array $array = [])
 	{
