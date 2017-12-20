@@ -28,7 +28,11 @@ class ServeCommand extends Command
 
 	public function help (...$args)
 	{
-		// TODO: Implement help() method.
+		print("Params: \n");
+		print("\t--port\t\t->\tdefine the server's port (default: $this->port)\n");
+		print("\t--hostname\t->\tdefine the server's hostname (default: $this->hostname)\n");
+		print("\t--dir\t\t->\tdefine the server's directory root (default: $this->dir/)");
+		print("\n\nExample: 'php cli serve --port=8080' -> run a server with default dir, default hostname at port 8080\n");
 	}
 
 
