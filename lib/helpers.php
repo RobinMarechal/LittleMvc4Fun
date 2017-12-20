@@ -52,3 +52,26 @@ function config($configPath)
 
     return $base;
 }
+
+function firstLetterUpperCase($str)
+{
+	return strtoupper(substr($str, 0, 1)) . strtolower(substr($str, 1));
+}
+
+function camelCase($str, $firstCapital = true)
+{
+	$parts = explode('_', $str);
+	$res = $parts[0];
+
+
+	if($firstCapital)
+		$res = firstLetterUpperCase($res);
+
+	for($i = 1; $i < count($parts); $i++)
+	{
+		$p = $parts[$i];
+		$res .= firstLetterUpperCase($p);
+	}
+
+	return $res;
+}

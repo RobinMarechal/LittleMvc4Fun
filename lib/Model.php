@@ -1,9 +1,11 @@
 <?php
 namespace Lib;
+
 use \PDO;
 use \DateTime;
 
-abstract class Model{
+abstract class Model
+{
 
 	protected $primaryKey = 'id';
 	protected $timestamps = true;
@@ -15,55 +17,60 @@ abstract class Model{
 	public $hidden = [];
 	public $visible = ['*'];
 
-	function __construct($data=false)
+
+	function __construct ($data = false)
 	{
-		if($data !== false)
+		if ($data !== false) {
 			$this->init($data);
+		}
 	}
 
-	static function createFromFetch($class, $data)
+
+	static function createFromFetch ($class, $data)
 	{
-		if(is_array($data) && is_object($data[0]))
-		{
+		if (is_array($data) && is_object($data[0])) {
 			$models = [];
 			foreach ($data as $d) {
 				$models[] = new $class($d);
 			}
 
 			return $models;
-
 		}
-		else
-		{
+		else {
 			return new $class($data);
-		}	}
+		}
+	}
 
-	public function init($data)
+
+	public function init ($data)
 	{
 		foreach ($data as $k => $v) {
 			$this->$k = $v;
 		}
 
-		if(!is_object($data))
+		if (!is_object($data)) {
 			$data = (object) $data;
+		}
 
-		if($this->timestamps)
-		{
+		if ($this->timestamps) {
 			foreach ($this->timestampFields as $f) {
-				if($data->$f == null)
+				if ($data->$f == null) {
 					$this->$f = null;
-				else
+				}
+				else {
 					$this->$f = new DateTime($data->$f);
+				}
 			}
 		}
 
-		if($this->softDeletes)
-		{
+		if ($this->softDeletes) {
 			$field = $this->softDeleteField;
-			if($data->$field == null)
+			if ($data->$field == null) {
 				$this->$field = null;
-			else
+			}
+			else {
 				$this->$field = new DateTime($data->$field);
+			}
 		}
 
 		foreach ($this->dates as $d) {
