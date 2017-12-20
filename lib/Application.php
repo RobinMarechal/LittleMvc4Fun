@@ -50,6 +50,8 @@ class Application
 		self::require_wildcard("lib/*/*.php");
 		self::require_wildcard("app/*.php");
 		self::require_wildcard("app/Http/Controllers/*.php");
+		self::require_wildcard("tests/unit/*/*.php");
+		self::require_wildcard("tests/feature/*/*.php");
 	}
 
 

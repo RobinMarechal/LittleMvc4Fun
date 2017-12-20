@@ -2,6 +2,8 @@
 
 return [
 
+	'debug' => true,
+
 	/**
 	 * If you don't want to use a template engine,
 	 * this framework provides a global layout (../views/layout.php).

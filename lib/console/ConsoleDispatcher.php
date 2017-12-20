@@ -4,6 +4,7 @@ namespace Lib\Console;
 
 use function array_key_exists;
 use ReflectionClass;
+use ReflectionMethod;
 
 class ConsoleDispatcher
 {
@@ -38,7 +39,7 @@ class ConsoleDispatcher
 
 		$class = new ReflectionClass($alias);
 		$instance = $class->newInstance();
-		$method = $class->getMethod($subcommand);
+		$method = new ReflectionMethod($alias, $subcommand);
 
 		$params = [];
 
