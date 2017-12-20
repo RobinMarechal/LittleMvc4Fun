@@ -14,7 +14,7 @@ class TestsCommand extends Command{
 	}
 
 
-	public function defaultCommand ()
+	public function defaultCommand (...$args)
 	{
 		// TODO: Implement defaultCommand() method.
 	}
@@ -27,5 +27,11 @@ class TestsCommand extends Command{
 
 		$class = new ReflectionClass($namespace);
 		TestRunner::run($class)->run($class->newInstance());
+	}
+
+
+	public function help (...$args)
+	{
+		print("tests help");
 	}
 }

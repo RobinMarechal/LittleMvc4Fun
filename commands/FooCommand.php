@@ -5,13 +5,19 @@ use Lib\Console\Command;
 
 class FooCommand extends Command{
 
-	public function defaultCommand ()
+	public function defaultCommand (...$args)
 	{
 		printf("foo");
 	}
 
-	public function bar($truc)
+	public function help (...$args)
 	{
-		print($truc);
+		// TODO: Implement help() method.
+	}
+
+
+	public function bar($truc = null)
+	{
+		print('bar - '. $truc);
 	}
 }

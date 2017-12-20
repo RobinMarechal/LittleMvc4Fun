@@ -8,6 +8,7 @@ abstract class Command{
 	{
 	}
 
+	abstract public function defaultCommand(...$args);
 
-	abstract public function defaultCommand();
+	abstract public function help(...$args);
 }

@@ -4,6 +4,7 @@ namespace Lib\Console;
 
 use function array_key_exists;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
 
 class ConsoleDispatcher
@@ -29,17 +30,24 @@ class ConsoleDispatcher
 			$subcommand = $commandParts[1];
 		}
 
+
 		if (!array_key_exists($commandName, $commandAliases)) {
 			print("This command doesn't exists.");
 
 			return;
 		}
 
-		$alias = $commandAliases[ $commandName ];
+		$alias = $commandAliases[ $commandName ]['class'];
 
 		$class = new ReflectionClass($alias);
 		$instance = $class->newInstance();
-		$method = new ReflectionMethod($alias, $subcommand);
+		try {
+			$method = new ReflectionMethod($alias, $subcommand);
+		} catch (ReflectionException $e) {
+			print("The subcommand does not exist.\n");
+
+			return;
+		}
 
 		$params = [];
 
@@ -47,18 +55,15 @@ class ConsoleDispatcher
 			$params[] = $argv[ $i ];
 		}
 
-		try{
+		try {
 			if (!isset($params[0])) {
 				$method->invoke($instance);
 			}
 			else {
 				$method->invokeArgs($instance, $params);
 			}
-		}
-		catch (\ArgumentCountError $e)
-		{
+		} catch (\ArgumentCountError $e) {
 			print("The number of arguments does not correspond.");
 		}
-
 	}
 }
