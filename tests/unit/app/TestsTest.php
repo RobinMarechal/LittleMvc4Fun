@@ -8,9 +8,7 @@
 
 namespace Test\Unit\App;
 
-use function assertTrue;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 class TestsTest extends TestCase
 {
@@ -22,7 +20,6 @@ class TestsTest extends TestCase
 		$this->assertTrue(true, "true should be true");
 		$this->assertTrue(true, "true should be true");
 	}
-
 
 	/**
 	 * @Test

@@ -25,6 +25,6 @@ return [
 		'make'  => [
 			'class'       => Command\MakeCommand::class,
 			'description' => 'create things...',
-		],
+		]
 	],
 ];
