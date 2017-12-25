@@ -1,5 +1,5 @@
 <?php
-use Lib\Routing\Route;
+use Lib\routing\Route;
 
 Route::get('/', function() {
 	return view('home');

@@ -8,8 +8,13 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "Lib\\": "lib/"
+            "App\\": "app\\",
+            "Lib\\": "lib\\",
+            "Lib\\Console\\": "lib\\console\\",
+            "Lib\\Exception\\": "lib\\exceptions\\",
+            "Lib\\Routing\\": "lib\\routing\\",
+            "App\\Controller\\": "app\\http\\controllers\\",
+            "App\\Middleware\\": "app\\http\\middlewares\\"
         },
         "files":[
 
@@ -18,7 +23,8 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests\\",
-            "Command\\": "commands\\"
+            "Command\\": "commands\\",
+            "Command\\Make\\": "commands\\make\\"
         }
     }
 }

@@ -1,18 +1,22 @@
 <?php
 namespace Lib;
 
+use function get_class;
 use \PDO;
 use \DateTime;
+use function strtolower;
 
 abstract class Model
 {
 
+	protected $table;
 	protected $primaryKey = 'id';
 	protected $timestamps = true;
 	protected $timestampFields = ['created_at', 'updated_at'];
 	protected $dates = [];
 	protected $softDeletes = false;
 	protected $softDeleteField = 'deleted_at';
+
 	public $fields = [];
 	public $hidden = [];
 	public $visible = ['*'];
@@ -20,6 +24,8 @@ abstract class Model
 
 	function __construct ($data = false)
 	{
+		$this->table = plural(strtolower(array_last(explode('\\', get_class($this)))));
+
 		if ($data !== false) {
 			$this->init($data);
 		}

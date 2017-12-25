@@ -2,7 +2,7 @@
 
 namespace Lib;
 
-use Lib\Routing\Router;
+use Lib\routing\Router;
 
 class Application
 {
@@ -49,7 +49,7 @@ class Application
 		self::require_wildcard("lib/*.php");
 		self::require_wildcard("lib/*/*.php");
 		self::require_wildcard("app/*.php");
-		self::require_wildcard("app/Http/Controllers/*.php");
+		self::require_wildcard("app/http/controllers/*.php");
 		self::require_wildcard("tests/unit/*/*.php");
 		self::require_wildcard("tests/feature/*/*.php");
 	}
@@ -61,8 +61,8 @@ class Application
 		self::require_wildcard("../lib/*.php");
 		self::require_wildcard("../lib/*/*.php");
 		self::require_wildcard("../app/*.php");
-		self::require_wildcard("../app/Http/Controllers/*.php");
-		self::require_wildcard("../app/Http/Middlewares/*.php");
+		self::require_wildcard("../app/http/controllers/*.php");
+		self::require_wildcard("../app/http/middlewares/*.php");
 		self::require_wildcard("../routes/*.php");
 	}
 
@@ -73,7 +73,7 @@ class Application
 		self::registerProviders();
 
 		self::$request = new Request();
-		self::$router = new Routing\Router(self::$request);
+		self::$router = new routing\Router(self::$request);
 		self::$router->triggerRequestedRoute();
 	}
 

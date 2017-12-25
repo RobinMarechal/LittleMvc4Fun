@@ -1,5 +1,5 @@
 <?php
-namespace Lib\Exceptions;
+namespace Lib\Exception;
 
 class ControllerException extends \Exception {
 	

@@ -9,19 +9,11 @@
 namespace Command;
 
 use Command\Make\CommandCreator;
+use Command\Make\ControllerCreator;
+use Command\Make\MiddlewareCreator;
+use Command\Make\ModelCreator;
 use Command\Make\TestCreator;
 use Lib\Console\Command;
-
-use function array_key_exists;
-use function camelCase;
-use function fclose;
-use function fgets;
-use function fopen;
-use function fwrite;
-use function rewind;
-use function strlen;
-use function strpos;
-use function substr;
 
 class MakeCommand extends Command
 {
@@ -29,6 +21,18 @@ class MakeCommand extends Command
 		'command' => [
 			'description' => 'create a command',
 		],
+		'test' => [
+			'description' => 'create a unit or feature test'
+		],
+		'middleware' => [
+			'description' => 'create a middleware'
+		],
+		'controller' => [
+			'description' => 'create a controller'
+		],
+		'model' => [
+			'description' => 'create a model'
+		]
 	];
 
 
@@ -41,14 +45,25 @@ class MakeCommand extends Command
 	public function help (...$args)
 	{
 		foreach ($this->subcommands as $s => $v) {
-			print("$s\t->\t$v[description]");
+			print("$s  ->  $v[description]\n");
 		}
 	}
 
+	public function middleware(...$args)
+	{
+		require_once "commands\\make\\MiddlewareCreator.php";
+
+		if(isset($args[0]) && $args[0] == "help"){
+			MiddlewareCreator::displayHelp();
+		}
+		else{
+			MiddlewareCreator::create($args);
+		}
+	}
 
 	public function test (...$args)
 	{
-		require_once "commands/make/TestCreator.php";
+		require_once "commands\\make\\TestCreator.php";
 
 		if (isset($args[0]) && $args[0] == "help") {
 			TestCreator::displayHelp();
@@ -61,13 +76,35 @@ class MakeCommand extends Command
 
 	public function command (...$args)
 	{
-		require_once "commands/make/CommandCreator.php";
+		require_once "commands\\make\\CommandCreator.php";
 
 		if (isset($args[0]) && $args[0] == "help") {
 			CommandCreator::displayHelp();
 		}
 		else {
 			CommandCreator::create($args);
+		}
+	}
+
+	public function controller (...$args){
+		require_once "commands\\make\\ControllerCreator.php";
+
+		if (isset($args[0]) && $args[0] == "help") {
+			ControllerCreator::displayHelp();
+		}
+		else {
+			ControllerCreator::create($args);
+		}
+	}
+
+	public function model (...$args){
+		require_once "commands\\make\\ModelCreator.php";
+
+		if (isset($args[0]) && $args[0] == "help") {
+			ModelCreator::displayHelp();
+		}
+		else {
+			ModelCreator::create($args);
 		}
 	}
 }

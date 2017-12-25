@@ -21,9 +21,9 @@ All your routes are stored inside of `/routes/web.php`.
 
 Syntax : 
 ```
-Route::<httpMethod>('<url_path]>', '<controller>@<method>', (optional)<'middleware' => <'middleware alias'>);
+Route::<httpMethod>('your/url', 'YourController@theMethod', (optional)<'middleware' => <'middleware alias'>);
 
-Route::<httpMethod>('<url_path>', function(<parameters>){
+Route::<httpMethod>('another/url', function(<parameters>){
     //...
 });
 ```
@@ -41,12 +41,14 @@ Route::get('users/{userId}/posts/{postId}', function($userId, $postId){
 ## Middlewares
 Middlewares are stored at `/app/Http/Middlewares/`.
 
-You can apply middleware(s) to your routes, which will be checked just before calling your controller method. If the user does not fullfill the conditions you specified, you can for example return a specific view or redirect the user to another URL.
+You can apply middleware(s) to your routes, which will be checked just before calling your controller method. If the user does not fulfill the conditions you specified, you can for example return a specific view or redirect the user to another URL.
 
 To create you own middleware, create a new class and override the `handle` function:
 
 ```
-class TestMiddleware extends \Lib\Middleware{
+namespace App\Middleware;
+
+class YourMiddleware extends \Lib\Middleware{
 	
 	public function handle()
 	{
@@ -54,6 +56,17 @@ class TestMiddleware extends \Lib\Middleware{
 	}
 }
 ``` 
+
+Then, add your middleware's alias in the file `/app/Http/middlewares.php`:
+
+```
+return [
+    // ...
+    'yourAlias' => App\Middleware\YourMiddleware::class,
+];
+
+```
+
 
 You can access to a `$request` class attribute which contains some useful information like the currently logged user, the GET params, or post/patch/put data...
 

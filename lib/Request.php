@@ -2,7 +2,7 @@
 
 namespace Lib;
 
-use Lib\Routing\Route;
+use Lib\routing\Route;
 
 class Request
 {

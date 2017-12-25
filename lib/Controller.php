@@ -1,6 +1,6 @@
 <?php
 namespace Lib;
-use Lib\Exceptions\ControllerException;
+use Lib\exceptions\ControllerException;
 
 abstract class Controller{
 

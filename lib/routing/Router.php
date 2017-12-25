@@ -4,8 +4,8 @@ use function array_keys;
 use function is_nan;
 use function is_null;
 use Lib\Request;
-use Lib\Routing\Route;
-use Lib\Exceptions\RouteException;
+use Lib\routing\Route;
+use Lib\exceptions\RouteException;
 use function preg_match;
 
 class Router{

@@ -1,6 +1,6 @@
 <?php
 namespace Lib;
-use Lib\Exceptions\ViewException;
+use Lib\exceptions\ViewException;
 
 class View{
 

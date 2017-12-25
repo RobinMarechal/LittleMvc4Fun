@@ -12,12 +12,13 @@ namespace Command\Make;
 use function camelCase;
 use Command\TestCommand;
 use function join;
+use Lib\Console\CreatorCommand;
 use function mkdir;
 use PHPUnit\Runner\Exception;
 use function preg_split;
 use function substr;
 
-class TestCreator
+class TestCreator extends CreatorCommand
 {
 	const TYPE_UNIT = 0;
 	const ARG_UNIT = "--unit";
@@ -76,9 +77,9 @@ class TestCreator
 	private $completeNameSpace;
 
 
-	private function __construct (array $args)
+	protected function __construct (array $args)
 	{
-		$this->args = $args;
+		parent::__construct($args);
 
 		// Create Class
 		if (!isset($this->args[0])) {
@@ -138,6 +139,8 @@ class TestCreator
 			print("The test has been created.");
 		} catch (\Exception $e) {
 			print($e->getMessage());
+			print("\n");
+			self::displayHelp();
 		}
 	}
 
@@ -178,7 +181,7 @@ class TestCreator
 		$bool = fwrite($file, $newContent);
 
 		if (!$bool) {
-			throw new \Exception("An error has occurred, the test could not be created...2\n");
+			throw new \Exception("An error has occurred, the test could not be created...\n");
 		}
 	}
 
@@ -233,7 +236,7 @@ class TestCreator
 
 	public static function displayHelp ()
 	{
-		print("\nphp cli make:tests <testAlias> [OPTIONS]\n");
+		print("\nphp cli make:test <testAlias> [OPTIONS]\n");
 		print("Options:\n");
 		print("\t--dir\t-> set the directory of the created class, inside of /tests/unit or /tests/feature (depending on the type of test)\n");
 		print("\t--class\t-> set the name of the class. the suffix 'Test' will be added to it.\n");

@@ -10,9 +10,10 @@ namespace Command\Make;
 
 
 use function camelCase;
+use Lib\Console\CreatorCommand;
 use PHPUnit\Runner\Exception;
 
-class CommandCreator
+class CommandCreator extends CreatorCommand
 {
 	/**
 	 * @var array
@@ -24,9 +25,9 @@ class CommandCreator
 	private $className;
 
 
-	private function __construct (array $args)
+	protected function __construct (array $args)
 	{
-		$this->args = $args;
+		parent::__construct($args);
 
 		// Create Class
 		if (!isset($args[0])) {
@@ -46,6 +47,8 @@ class CommandCreator
 			print("The command has been created.");
 		} catch (\Exception $e) {
 			print($e->getMessage());
+			print("\n");
+			self::displayHelp();
 		}
 	}
 

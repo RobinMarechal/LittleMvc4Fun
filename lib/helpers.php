@@ -77,3 +77,32 @@ function camelCase ($str, $firstCapital = true)
 
 	return $res;
 }
+
+function singular ($str)
+{
+	if (ends_with($str, 'ies')) {
+		return substr($str, 0, strlen($str) - 3) . 'y';
+	}
+	else if (ends_with($str, 's')) {
+		return substr($str, 0, strlen($str) - 1);
+	}
+
+	return $str;
+}
+
+function plural ($str)
+{
+	$len = strlen($str);
+	$last = $str[ -1 ];
+	$base = substr($str, 0, $len - 1);
+
+	if ($last == 's') {
+		return $str;
+	}
+
+	if ($last == 'y') {
+		return $base . 'ies';
+	}
+
+	return $str . 's';
+}

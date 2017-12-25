@@ -8,7 +8,7 @@ use function array_keys;
 use function call_user_func_array;
 use Closure;
 use function extract;
-use Lib\Routing\Router;
+use Lib\routing\Router;
 use Lib\Request;
 use function preg_match;
 use function preg_match_all;
